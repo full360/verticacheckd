@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -36,14 +38,20 @@ func Status(w http.ResponseWriter, t *http.Request) {
 }
 
 func main() {
+	addr := flag.String("address", "127.0.0.1", "HTTP address")
+	port := flag.Int("port", 3000, "HTTP server listening port")
+	name := flag.String("service-name", "vertica-check", "Service name")
+
+	flag.Parse()
+
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/health", Chain(Health, logging()))
-	mux.HandleFunc("/vertica/status", Chain(Status, logging()))
+	mux.HandleFunc(fmt.Sprintf("/%s/health", *name), Chain(Health, logging()))
+	mux.HandleFunc(fmt.Sprintf("/%s/status", *name), Chain(Status, logging()))
 
 	srv := http.Server{
 		Handler:      mux,
-		Addr:         "127.0.0.1:3000",
+		Addr:         fmt.Sprintf("%s:%d", *addr, *port),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
