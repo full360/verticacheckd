@@ -41,6 +41,7 @@ func main() {
 	addr := flag.String("address", "127.0.0.1", "HTTP address")
 	port := flag.Int("port", 3000, "HTTP server listening port")
 	name := flag.String("service-name", "vertica-check", "Service name")
+	timeOut := flag.Duration("timeouts", 5*time.Second, "HTTP Read and Write timeout")
 
 	flag.Parse()
 
@@ -52,8 +53,8 @@ func main() {
 	srv := http.Server{
 		Handler:      mux,
 		Addr:         fmt.Sprintf("%s:%d", *addr, *port),
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
+		WriteTimeout: *timeOut,
+		ReadTimeout:  *timeOut,
 	}
 
 	log.Fatal(srv.ListenAndServe())
