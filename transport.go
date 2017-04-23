@@ -4,9 +4,9 @@ import (
 	"net/http"
 )
 
-func Check(svc CheckService) http.Handler {
+func StateHandler(svc CheckService) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		check, err := svc.Health()
+		check, err := svc.HostState()
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("error"))
