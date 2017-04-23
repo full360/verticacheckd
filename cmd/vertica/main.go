@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	vcd "gitlab.full360.com/full360-south/verticacheckd"
+	"gitlab.full360.com/full360-south/checkd"
 )
 
 func main() {
@@ -18,16 +18,15 @@ func main() {
 
 	flag.Parse()
 
-	hostAddr, err := vcd.ExternalIP()
+	hostAddr, err := checkd.ExternalIP()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	cmd := "cat"
-	args := []string{"fixture/cmd_output.txt"}
+	svc := checkd.NewCheckService(hostAddr, "cat", []string{"fixture/cmd_output.txt"})
 
 	mux := http.NewServeMux()
-	mux.Handle(fmt.Sprintf("/%s/health", *name), vcd.Check(hostAddr, cmd, args...))
+	mux.Handle(fmt.Sprintf("/%s/health", *name), checkd.Check(svc))
 
 	srv := http.Server{
 		Handler:      mux,
