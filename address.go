@@ -1,4 +1,4 @@
-package verticacheckd
+package checkd
 
 import (
 	"errors"
