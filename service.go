@@ -7,7 +7,7 @@ import (
 )
 
 type CheckService interface {
-	Health() (bool, error)
+	HostState() (bool, error)
 }
 
 type checkService struct {
@@ -16,7 +16,7 @@ type checkService struct {
 	cmdArgs []string
 }
 
-func NewCheckService(addr, cmd string, cmdArgs []string) *checkService {
+func NewService(addr, cmd string, cmdArgs []string) *checkService {
 	return &checkService{
 		address: addr,
 		cmd:     cmd,
@@ -24,12 +24,16 @@ func NewCheckService(addr, cmd string, cmdArgs []string) *checkService {
 	}
 }
 
-func (c checkService) Health() (bool, error) {
+func (c checkService) state(regex string) (bool, error) {
 	cmdOut, err := exec.Command(c.cmd, c.cmdArgs...).CombinedOutput()
 	if err != nil {
 		return false, err
 	}
 
-	exp := regexp.MustCompile(fmt.Sprintf(`.%s\s+\W\s+UP`, c.address))
+	exp := regexp.MustCompile(regex)
 	return exp.Match(cmdOut), nil
+}
+
+func (c checkService) HostState() (bool, error) {
+	return c.state(fmt.Sprintf(`.%s\s+\W\s+UP`, c.address))
 }

@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestService_NewCheckService(t *testing.T) {
+func TestService_NewService(t *testing.T) {
 	data := struct {
 		address string
 		name    string
@@ -13,7 +13,7 @@ func TestService_NewCheckService(t *testing.T) {
 	}{
 		address: "10.0.1.66",
 		name:    "cat",
-		args:    []string{"fixture/cmd_output.txt"},
+		args:    []string{"testdata/sample_output.txt"},
 	}
 
 	cases := []struct {
@@ -29,7 +29,7 @@ func TestService_NewCheckService(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		svc := NewCheckService(data.address, data.name, data.args)
+		svc := NewService(data.address, data.name, data.args)
 
 		if !reflect.DeepEqual(svc, c.svc) {
 			t.Errorf("expected %v to be %v", svc, c.svc)
@@ -37,13 +37,13 @@ func TestService_NewCheckService(t *testing.T) {
 	}
 }
 
-func TestService_Health(t *testing.T) {
+func TestService_HostState(t *testing.T) {
 	command := struct {
 		name string
 		args []string
 	}{
 		name: "cat",
-		args: []string{"fixture/cmd_output.txt"},
+		args: []string{"testdata/sample_output.txt"},
 	}
 
 	cases := []struct {
@@ -77,7 +77,7 @@ func TestService_Health(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		check, err := c.svc.Health()
+		check, err := c.svc.HostState()
 		if err != nil {
 			t.Errorf("expected %v to be %v", nil, err)
 		}
