@@ -1,4 +1,4 @@
-package checkd
+package verticacheckd
 
 import (
 	"fmt"
