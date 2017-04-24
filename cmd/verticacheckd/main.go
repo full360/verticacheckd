@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"gitlab.full360.com/full360-south/checkd"
+	"gitlab.full360.com/full360-south/verticacheckd"
 )
 
 func main() {
@@ -18,15 +18,15 @@ func main() {
 
 	flag.Parse()
 
-	hostAddr, err := checkd.ExternalIP()
+	hostAddr, err := verticacheckd.ExternalIP()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	svc := checkd.NewService(hostAddr, "admintools", []string{"-t", "view_cluster", "-x"})
+	svc := verticacheckd.NewService(hostAddr, "admintools", []string{"-t", "view_cluster", "-x"})
 
 	mux := http.NewServeMux()
-	mux.Handle(fmt.Sprintf("/%s/state", *name), checkd.StateHandler(svc))
+	mux.Handle(fmt.Sprintf("/%s/state", *name), verticacheckd.StateHandler(svc))
 
 	srv := http.Server{
 		Handler:      mux,
