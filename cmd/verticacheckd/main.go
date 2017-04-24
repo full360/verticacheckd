@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"gitlab.full360.com/full360-south/verticacheckd"
@@ -22,9 +23,12 @@ func main() {
 
 	flag.Parse()
 
+	// log setup
+	logger := log.New(os.Stderr, "", log.Ldate|log.Ltime)
+
 	hostAddr, err := verticacheckd.ExternalIP()
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 
 	svc := verticacheckd.NewService(hostAddr, "admintools", []string{"-t", "view_cluster", "-x"})
@@ -39,5 +43,6 @@ func main() {
 		ReadTimeout:  *timeOut,
 	}
 
-	log.Fatal(srv.ListenAndServe())
+	logger.Printf("listening on address: %s, port: %d", *addr, *port)
+	logger.Fatal(srv.ListenAndServe())
 }
