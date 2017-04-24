@@ -16,6 +16,10 @@ func main() {
 	name := flag.String("service-name", "verticacheckd", "Service name")
 	timeOut := flag.Duration("timeouts", 5*time.Second, "HTTP Read and Write timeout")
 
+	flag.Usage = func() {
+		flag.PrintDefaults()
+	}
+
 	flag.Parse()
 
 	hostAddr, err := verticacheckd.ExternalIP()
