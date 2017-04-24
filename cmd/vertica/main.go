@@ -23,10 +23,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	svc := checkd.NewService(hostAddr, "cat", []string{"testdata/sample_output.txt"})
+	svc := checkd.NewService(hostAddr, "admintools", []string{"-t", "view_cluster", "-x"})
 
 	mux := http.NewServeMux()
-	mux.Handle(fmt.Sprintf("/%s/health", *name), checkd.StateHandler(svc))
+	mux.Handle(fmt.Sprintf("/%s/state", *name), checkd.StateHandler(svc))
 
 	srv := http.Server{
 		Handler:      mux,
