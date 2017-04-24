@@ -31,10 +31,17 @@ func main() {
 		logger.Fatal(err)
 	}
 
-	svc := verticacheckd.NewService(hostAddr, "admintools", []string{"-t", "view_cluster", "-x"})
+	svc := verticacheckd.NewService(
+		hostAddr,
+		"admintools",
+		[]string{"-t", "view_cluster", "-x"},
+	)
 
 	mux := http.NewServeMux()
-	mux.Handle(fmt.Sprintf("/%s/state", *name), verticacheckd.StateHandler(svc))
+	mux.Handle(
+		fmt.Sprintf("/%s/state", *name),
+		verticacheckd.AddLogger(logger, verticacheckd.StateHandler(svc)),
+	)
 
 	srv := http.Server{
 		Handler:      mux,
@@ -43,6 +50,6 @@ func main() {
 		ReadTimeout:  *timeOut,
 	}
 
-	logger.Printf("listening on address: %s, port: %d", *addr, *port)
+	logger.Printf("listening on address: %s, port: %d\n", *addr, *port)
 	logger.Fatal(srv.ListenAndServe())
 }
