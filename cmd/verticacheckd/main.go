@@ -8,6 +8,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/gorilla/mux"
 	"gitlab.full360.com/full360/verticacheckd"
 )
 
@@ -37,14 +38,21 @@ func main() {
 		[]string{"-t", "view_cluster", "-x"},
 	)
 
-	mux := http.NewServeMux()
-	mux.Handle(
-		fmt.Sprintf("/%s/state", *name),
+	r := mux.NewRouter()
+	s := r.PathPrefix(fmt.Sprintf("/%s", *name)).Subrouter()
+
+	s.Handle(
+		"/state",
 		verticacheckd.AddLogger(logger, verticacheckd.StateHandler(svc)),
-	)
+	).Methods("GET")
+
+	s.Handle(
+		"/dbs/{name}/state",
+		verticacheckd.AddLogger(logger, verticacheckd.DBStateHandler(svc)),
+	).Methods("GET")
 
 	srv := http.Server{
-		Handler:      mux,
+		Handler:      r,
 		Addr:         fmt.Sprintf("%s:%d", *addr, *port),
 		WriteTimeout: *timeOut,
 		ReadTimeout:  *timeOut,
