@@ -8,6 +8,7 @@ import (
 
 type CheckService interface {
 	HostState() (bool, error)
+	DBHostState(db string) (bool, error)
 }
 
 type checkService struct {
@@ -36,4 +37,8 @@ func (c checkService) state(regex string) (bool, error) {
 
 func (c checkService) HostState() (bool, error) {
 	return c.state(fmt.Sprintf(`.%s\s+\W\s+UP`, c.address))
+}
+
+func (c checkService) DBHostState(db string) (bool, error) {
+	return c.state(fmt.Sprintf(`\s+%s\s+\W\s+%s\s+\W\s+UP`, db, c.address))
 }

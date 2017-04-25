@@ -87,3 +87,67 @@ func TestService_HostState(t *testing.T) {
 		}
 	}
 }
+
+func TestService_DBHostState(t *testing.T) {
+	command := struct {
+		name string
+		args []string
+	}{
+		name: "cat",
+		args: []string{"testdata/sample_output.txt"},
+	}
+
+	cases := []struct {
+		db    string
+		found bool
+		svc   *checkService
+	}{
+		{
+			"climatedb",
+			true,
+			&checkService{
+				address: "10.0.1.66",
+				cmd:     command.name,
+				cmdArgs: command.args,
+			},
+		},
+		{
+			"climatedb",
+			true,
+			&checkService{
+				address: "172.31.47.139",
+				cmd:     command.name,
+				cmdArgs: command.args,
+			},
+		},
+		{
+			"climatedb",
+			false,
+			&checkService{
+				address: "172.31.47.100",
+				cmd:     command.name,
+				cmdArgs: command.args,
+			},
+		},
+		{
+			"otherdb",
+			false,
+			&checkService{
+				address: "10.0.1.66",
+				cmd:     command.name,
+				cmdArgs: command.args,
+			},
+		},
+	}
+
+	for _, c := range cases {
+		check, err := c.svc.DBHostState(c.db)
+		if err != nil {
+			t.Errorf("expected %v to be %v", nil, err)
+		}
+
+		if check != c.found {
+			t.Errorf("expected %v to be %v", c.found, check)
+		}
+	}
+}
