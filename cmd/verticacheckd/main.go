@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"gitlab.full360.com/full360-south/verticacheckd"
+	"gitlab.full360.com/full360/verticacheckd"
 )
 
 func main() {
