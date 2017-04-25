@@ -1,0 +1,5 @@
+ DB        | Host          | State
+-----------+---------------+-------
+ climatedb | 10.0.1.66     | UP
+ otherdb   | 10.0.1.66     | DOWN
+ climatedb | 172.31.47.139 | UP
