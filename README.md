@@ -30,6 +30,12 @@ Current flag defaults:
       -timeouts duration
             HTTP Read and Write timeout (default 5s)
 
+Current state endpoints:
+
+- `{service-name}/state` this will return a global state for the node
+- `{service-name}/dbs/{name}/state` will return the state of a specific db given
+  a name
+
 ## Building
 
 To build the project we have set a make task that'll only build Darwin and Linux
