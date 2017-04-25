@@ -32,4 +32,15 @@ Current flag defaults:
 
 ## Building
 
-TBD
+To build the project we have set a make task that'll only build Darwin and Linux
+binaries for amd64.
+
+    make release
+
+## Tests
+
+Running tests can be performed from the default make command or from the test
+target
+
+    make test
+
