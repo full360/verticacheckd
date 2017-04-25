@@ -5,6 +5,8 @@ import (
 	"net"
 )
 
+// Get the Host external IP address. This function was taken from a
+// StackOverflow thread. http://stackoverflow.com/a/23558495
 func ExternalIP() (string, error) {
 	ifaces, err := net.Interfaces()
 	if err != nil {
