@@ -1,13 +1,14 @@
-# Vertica State
+# verticacheckd
 
-Vertica State is a web service that returns the state (up/down) of the Vertica
-node it's running on.
+verticacheckd is a web service that returns the state of the Vertica node it's
+running on by returning an HTTP 200 or 500 depending if it's UP or in any
+other state.
 
-## Detail
-
-It will receive a request from an AWS ELB and we'll get the IP address from the
-HOST, then "shell out" and run Vertica `admintools -t view_cluster -x` scrape
-the results of the given node through its IP address to see if it's UP or DOWN.
+In detail, It will receive a request from an AWS ELB and we'll get the IP
+address from the HOST, then "shell out" and run Vertica
+`/opt/vertica/bin/admintools -t view_cluster -x` scrape the results of the given
+node through its IP address to see if it's UP or DOWN, and return a response
+through the endpoint that could either be HTTP 200 or 500.
 
 ## Running
 
@@ -36,10 +37,28 @@ Current state endpoints:
 - `{service-name}/dbs/{name}/state` will return the state of a specific db given
   a name
 
-## Building
+## Installing for local development
+
+First make sure you have the `GOPATH` set up. If that's the case clone the
+project inside the `GOPATH`
+
+    git clone git@gitlab.full360.com:full360/verticacheckd.git $GOPATH/src/gitlab.full360.com/full360/verticacheckd
+
+Then install dependencies:
+
+    make install
+
+OR:
+
+    go get -u ./...
+
+with that you are done.
+
+## Building and Releasing
 
 To build the project we have set a make task that'll only build Darwin and Linux
-binaries for amd64.
+binaries for amd64. Remember to Bump the version inside the `Makefile` before
+releasing and that's about it.
 
     make release
 
