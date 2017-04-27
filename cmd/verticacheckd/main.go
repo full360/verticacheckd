@@ -43,12 +43,12 @@ func main() {
 
 	s.Handle(
 		"/state",
-		verticacheckd.AddLogger(logger, verticacheckd.StateHandler(svc)),
+		verticacheckd.StateHandler(svc),
 	).Methods("GET")
 
 	s.Handle(
 		"/dbs/{name}/state",
-		verticacheckd.AddLogger(logger, verticacheckd.DBStateHandler(svc)),
+		verticacheckd.DBStateHandler(svc),
 	).Methods("GET")
 
 	srv := http.Server{
