@@ -1,4 +1,4 @@
-VERSION=0.1.0
+VERSION=0.2.0-beta
 GO_LDFLAGS="-X main.version=$(VERSION)"
 
 default: test
