@@ -31,8 +31,6 @@ func (c checkService) state(regex string) (bool, error) {
 		return false, err
 	}
 
-	fmt.Println(cmdOut)
-	fmt.Printf("%#v", cmdOut)
 	exp := regexp.MustCompile(regex)
 	return exp.Match(cmdOut), nil
 }
