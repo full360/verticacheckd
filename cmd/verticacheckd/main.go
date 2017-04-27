@@ -34,7 +34,7 @@ func main() {
 
 	svc := verticacheckd.NewService(
 		hostAddr,
-		"admintools",
+		"/opt/vertica/bin/admintools",
 		[]string{"-t", "view_cluster", "-x"},
 	)
 
