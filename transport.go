@@ -11,6 +11,7 @@ func StateHandler(svc CheckService) http.Handler {
 		check, err := svc.HostState()
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
 		} else {
 			if check {
 				w.WriteHeader(http.StatusOK)
