@@ -16,7 +16,7 @@ func main() {
 	addr := flag.String("address", "127.0.0.1", "HTTP address")
 	port := flag.Int("port", 3000, "HTTP server listening port")
 	name := flag.String("service-name", "verticacheckd", "Service name")
-	timeOut := flag.Duration("timeouts", 5*time.Second, "HTTP Read and Write timeout")
+	timeOut := flag.Duration("timeout", 5*time.Second, "HTTP Read and Write timeout")
 
 	flag.Usage = func() {
 		flag.PrintDefaults()

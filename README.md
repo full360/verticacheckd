@@ -27,7 +27,7 @@ Current flag defaults:
             HTTP server listening port (default 3000)
       -service-name string
             Service name (default "verticacheckd")
-      -timeouts duration
+      -timeout duration
             HTTP Read and Write timeout (default 5s)
 
 Current state endpoints:
