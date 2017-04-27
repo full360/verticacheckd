@@ -18,12 +18,12 @@ release: release-darwin \
 
 release-darwin: bin
 	GOOS=darwin GOARCH=amd64 go build -ldflags=$(GO_LDFLAGS) -o bin/verticacheckd ./cmd/verticacheckd
-	cd bin && tar -cvzf verticacheckd$(VERSION).darwin-amd64.tgz verticacheckd
+	cd bin && tar -cvzf verticacheckd.$(VERSION).darwin-amd64.tgz verticacheckd
 	rm bin/verticacheckd
 
 release-linux: bin
 	GOOS=linux GOARCH=amd64 go build -ldflags=$(GO_LDFLAGS) -o bin/verticacheckd ./cmd/verticacheckd
-	cd bin && tar -cvzf verticacheckd$(VERSION).linux-amd64.tgz verticacheckd
+	cd bin && tar -cvzf verticacheckd.$(VERSION).linux-amd64.tgz verticacheckd
 	rm bin/verticacheckd
 
 .PHONY: default install test bin release
