@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/full360/verticacheckd"
 	"github.com/gorilla/mux"
-	"gitlab.full360.com/full360/verticacheckd"
 )
 
 func main() {

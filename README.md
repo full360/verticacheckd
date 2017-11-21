@@ -37,23 +37,6 @@ Current state endpoints:
 - `{service-name}/dbs/{name}/state` will return the state of a specific db given
   a name
 
-## Installing for local development
-
-First make sure you have the `GOPATH` set up. If that's the case clone the
-project inside the `GOPATH`
-
-    git clone git@gitlab.full360.com:full360/verticacheckd.git $GOPATH/src/gitlab.full360.com/full360/verticacheckd
-
-Then install dependencies:
-
-    make install
-
-OR:
-
-    go get -u ./...
-
-with that you are done.
-
 ## Building and Releasing
 
 To build the project we have set a make task that'll only build Darwin and Linux
